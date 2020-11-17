@@ -43,3 +43,9 @@
     \item Add ?BgeeCall documentation with link to main functions
   }
 }
+\section{Version 1.6.1 (2020-11)}{
+  \itemize{
+    \item better error handling when annotation are from more than one genome
+    \item update vignette to remove MtDNA associated to NA from genome annotation
+  }
+}
