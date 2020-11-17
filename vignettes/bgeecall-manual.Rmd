@@ -93,6 +93,10 @@ In this example we used the Bioconductor AnnotationHub to load transcriptome and
 ah <- AnnotationHub::AnnotationHub()
 ah_resources <- AnnotationHub::query(ah, c("Ensembl", "Caenorhabditis elegans", "84"))
 annotation_object <- ah_resources[["AH50789"]]
+# filter on MtDNA because annotation of C. elegans from AnnotationHub contain info from 2 genomes. 
+# Chromosomes are associated to C. elegans and MtDNA are associated to NA. This cause a bug when running
+# makeTxDbFromGRanges function from the GenomicFeatures package. 
+annotation_object <- dropSeqlevels(annotation_object, "MtDNA", "coarse")
 transcriptome_object <- rtracklayer::import.2bit(ah_resources[["AH50453"]])
 ```
 
