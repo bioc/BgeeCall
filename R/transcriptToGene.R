@@ -52,8 +52,19 @@ create_TxDb <- function(myAbundanceMetadata, myUserMetadata) {
     # create txdb from GRanges Object
     # use the suppressWarnings function in order not to print useless warnings like :
     # The "phase" metadata column contains non-NA values for features of type stop_codon. This information was ignored.
-    txdb <- suppressWarnings(makeTxDbFromGRanges(myUserMetadata@annotation_object, 
-        taxonomyId = as.numeric(myUserMetadata@species_id)))
+    tryCatch({
+        txdb <- suppressWarnings(makeTxDbFromGRanges(myUserMetadata@annotation_object, 
+            taxonomyId = as.numeric(myUserMetadata@species_id)))
+    }, error = function(e) {
+           message("An error has occured when running the makeTxDbFromGRanges function from the",
+                   " GenomicFeatures package. If the error below mention that all sequences in seqinfo(gr) must",
+                   " belong to the same genome, please run the command : \n\tseqinfo(your_annotation_object)", 
+                   "\nand keep only",
+                " annotations corresponding to the genome to use for calls generation. It is possible",
+                " to remove annotations with the command : \n\t",
+                " your_annotation_object <- dropSeqlevels(your_annotation_object, seq_names_to_remove, \"coarse\")\n\n", e)
+    })
+        
     return(txdb)
 }
 
