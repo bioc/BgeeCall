@@ -49,3 +49,8 @@
     \item update vignette to remove MtDNA associated to NA from genome annotation
   }
 }
+\section{Version 1.6.2 (2020-12)}{
+  \itemize{
+    \item solve potential error in final TPM values
+  }
+}
